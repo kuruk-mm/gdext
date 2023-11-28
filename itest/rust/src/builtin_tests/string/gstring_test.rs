@@ -95,3 +95,24 @@ fn string_hash() {
     .collect();
     assert_eq!(set.len(), 5);
 }
+
+
+#[itest]
+#[cfg(feature = "serde")]
+fn serde_roundtrip() {
+    #[derive(serde::Deserialize, serde::Serialize)]
+    struct Person {
+        name: GString,
+    }
+    let value = Person { name: GString::from("hello world") };
+    let expected_json = "{\"name\":\"hello world\"}";
+
+    let json: String = serde_json::to_string(&value).unwrap();
+    let back: Person = serde_json::from_str(json.as_str()).unwrap();
+
+    assert_eq!(back.name, value.name, "serde round-trip changes value");
+    assert_eq!(
+        json, expected_json,
+        "value does not conform to expected JSON"
+    );
+}
