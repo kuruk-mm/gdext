@@ -12,7 +12,7 @@ mod return_marshal;
 mod signature;
 
 pub use class_name::*;
-pub(crate) use godot_convert::convert_error::*;
+pub use godot_convert::convert_error::*;
 pub use godot_convert::*;
 #[doc(hidden)]
 pub use return_marshal::*;
